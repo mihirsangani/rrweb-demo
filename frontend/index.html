@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RRWeb Event Handler</title>
+        <!-- Include rrweb via a script tag -->
+        <script src="https://unpkg.com/rrweb"></script>
+    </head>
+    <body>
+        <section>
+            <div class="header">
+                <h1>Event Handler for RRWeb Interface</h1>
+                <button onclick="appendFunction()">Append</button>
+            </div>
+        </section>
+        <section>
+            <div class="body">
+                <div class="para_1">
+                    <p id="message">This is a sample code for recording user events.</p>
+                    <label for="name">Username</label>
+                    <input type="text" id="name" placeholder="Enter your name" />
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="footer">
+                <p style="margin-top: 100px; color: grey">© Copyright Mihir-Nikunj 2023</p>
+            </div>
+        </section>
+        <script>
+            function appendFunction() {
+                document.getElementsByClassName("body")[0].insertAdjacentHTML(
+                    "beforeend",
+                    `<div class="para_2">
+                <p>This is a sample code after clicking the button.</p>
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter your email" />
+            </div>`
+                )
+            }
+
+            let events = [] // Store the events here
+
+            rrweb.record({
+                emit(event) {
+                    // push each event into the events array
+                    console.log(event)
+                    events.push(event)
+                }
+            })
+
+            setTimeout(() => {
+                saveEvents()
+            }, 10000)
+
+            // Function to send the recorded events to the server
+            function saveEvents() {
+                if (events.length > 0) {
+                    fetch("http://localhost:3000/save", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(events)
+                    })
+                        .then(() => {
+                            events = [] // Reset the events array after sending
+                        })
+                        .catch((error) => console.error("Error saving events:", error))
+                }
+            }
+
+            // Optionally, call saveEvents based on certain actions or intervals
+        </script>
+    </body>
+</html>
