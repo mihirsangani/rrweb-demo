@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>RRWeb Replay</title>
+        <script src="https://cdn.jsdelivr.net/npm/rrweb"></script>
+    </head>
+    <body>
+        <div id="replay"></div>
+        <script>
+            let events = <%- events %>; // Insert the events data from the server
+            rrweb.Replayer(events).start();
+        </script>
+    </body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html>
     <head>
         <title>RRWeb Player</title>
@@ -8,4 +24,4 @@
         <script src="https://unpkg.com/rrweb"></script>
         <script src="./replay.js"></script>
     </body>
-</html>
+</html> -->
